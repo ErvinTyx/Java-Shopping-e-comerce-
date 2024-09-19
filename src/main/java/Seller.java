@@ -1,6 +1,7 @@
 
 
 import java.util.Scanner;
+import java.util.InputMismatchException;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -62,36 +63,61 @@ public class Seller extends UserBase {
     @Override
     public void accessControl(Shop shop, Scanner sc) {
         boolean loop = false;
-        while (loop) {
+        while (!loop) {
             System.out.println("\nSeller Menu:");
             System.out.println("1. View Items for Sale");
             System.out.println("2. Add New Item");
             System.out.println("3. Remove Item");
             System.out.println("4. Add new Seller");
-            System.out.println("5. Exit");
+            System.out.println("5. Log Out");
 
-            int choice = sc.nextInt();
-            sc.nextLine();
+            int choice;
+            try {
+                choice = sc.nextInt();
+                sc.nextLine();
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input. Please enter a number.");
+                sc.nextLine();
+                continue;
+            }
 
             switch (choice) {
                 case 1:
                     shop.listItems();
                     break;
                 case 2:
-                    System.out.println("Enter new item details (name, price):");
+                    System.out.print("Enter new item details name :");
                     String name = sc.nextLine();
-                    double price = sc.nextDouble();
+                    System.out.print("Enter item price :");
+                    double price;
+                    try {
+                        price = sc.nextDouble();
+                    } catch (InputMismatchException e) {
+                        System.out.println("Invalid input. Please enter a valid price. Please try again.");
+                        sc.nextLine();
+                        continue;
+                    }
                     shop.addItem(new Item(name, price));
                     System.out.println("Item added: " + name);
                     break;
                 case 3:
                     System.out.println("Enter item ID to remove:");
-                    int itemId = sc.nextInt();
+                    int itemId;
+                    try {
+                        itemId = sc.nextInt();
+                    } catch (InputMismatchException e) {
+                        System.out.println("Invalid input. Please enter a valid item ID.");
+                        sc.nextLine();
+                        continue;
+                    }
                     shop.removeItem(itemId);
                     System.out.println("Item removed.");
                     break;
                 case 4:
                     addNewSeller(sc, shop);
+                    break;
+                case 5:
+                    loop = true;
                     break;
                 default:
                     System.out.println("Invalid option. Please try again.");

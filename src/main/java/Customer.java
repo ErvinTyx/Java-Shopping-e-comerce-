@@ -26,7 +26,7 @@ public class Customer extends UserBase {
             System.out.println("2. Add Item to Cart");
             System.out.println("3. View Cart");
             System.out.println("4. Checkout");
-            System.out.println("5. Exit");
+            System.out.println("5. Log out");
 
             int choice = sc.nextInt();
             sc.nextLine();

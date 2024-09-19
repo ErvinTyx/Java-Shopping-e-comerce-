@@ -35,4 +35,49 @@ public class UserManager {
     public ArrayList<UserBase> getUsers() {
         return users;
     }
+
+    public boolean isValidPassword(String password) {
+        if (password.length() < 8) {
+            System.out.println("Password Lenght too Short");
+            return false; // Password too short
+        }
+
+        boolean hasUppercase = false;
+        boolean hasLowercase = false;
+        boolean hasDigit = false;
+        boolean hasSpecialChar = false;
+
+        for (char c : password.toCharArray()) {
+            if (Character.isUpperCase(c)) {
+                hasUppercase = true;
+            } else if (Character.isLowerCase(c)) {
+                hasLowercase = true;
+            } else if (Character.isDigit(c)) {
+                hasDigit = true;
+            } else if (!Character.isLetterOrDigit(c)) {
+                hasSpecialChar = true;
+            }
+        }
+        // prompt out message if password criteria are not met
+        if (!hasUppercase) {
+            System.out.println("Password must contain at least one uppercase letter");
+        }
+
+        if (!hasLowercase) {
+            System.out.println("Password must contain at least one lowercase letter");
+        }
+
+        if (!hasDigit) {
+            System.out.println("Password must contain at least one digit");
+        }
+
+        if (!hasSpecialChar) {
+            System.out.println("Password must contain at least one special character");
+        }
+
+        
+
+        // Password is valid only if all criteria are met
+        return hasUppercase && hasLowercase && hasDigit && hasSpecialChar;
+    }
 }

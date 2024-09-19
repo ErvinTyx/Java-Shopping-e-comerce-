@@ -11,12 +11,11 @@ import java.util.ArrayList;
 
 public class Shop {
     private ArrayList<Item> items;
-    private ArrayList<Category> categories;
     private UserManager userManager;
-
+    private boolean shopopen;
     public Shop() {
         items = new ArrayList<>();
-        categories = new ArrayList<>();
+        shopopen = true;
         userManager = new UserManager();
     }
 
@@ -44,8 +43,13 @@ public class Shop {
         }
     }
 
-    public void addCategory(Category category) {
-        categories.add(category);
+    public void openCloseShop() {
+        shopopen = !shopopen;
+        if (shopopen) {
+            System.out.println("Shop is now open.");
+        } else {
+            System.out.println("Shop is now closed. Please log out to terminate program.");
+        }
     }
 
     public void listUsers() {
@@ -58,4 +62,25 @@ public class Shop {
     public UserManager getUserManager() {
         return userManager;
     }
+
+    public ArrayList<Item> getItems() {
+        return items;
+    }
+
+    public void setItems(ArrayList<Item> items) {
+        this.items = items;
+    }
+
+    public void setUserManager(UserManager userManager) {
+        this.userManager = userManager;
+    }
+
+    public boolean isShopopen() {
+        return shopopen;
+    }
+
+    public void setShopopen(boolean shopopen) {
+        this.shopopen = shopopen;
+    }
+
 }

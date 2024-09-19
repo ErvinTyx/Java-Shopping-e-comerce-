@@ -18,15 +18,57 @@ public class Seller extends UserBase {
     public Seller(String username, String password) {
         super(username, password, "Seller");
     }
+    private void addNewSeller(Scanner sc, Shop shop) {
+        
+        boolean inputValid= false;
+        String username;
+        String password;
+        do{
+
+                
+            System.out.println("Enter new seller username:");
+            username = sc.nextLine();
+            if (shop.getUserManager().findUser(username) != null) {
+                System.out.println("Username already exists. Please choose a different username.");
+                inputValid = false;
+            }
+            else{
+                inputValid = true;
+            }
+        }while(!inputValid);
+
+        do{
+            if(!inputValid){
+
+                System.out.println("Please make sure password 8 or more characters long.");
+                System.out.println("Please make sure password has at least 1 uppercase, 1 lowercase, 1 digit and 1 special character");
+            }
+                System.out.println("Enter password:");
+            password = sc.nextLine();
+            if(!shop.getUserManager().isValidPassword(password)){
+                inputValid = false;
+            }
+            else{
+                inputValid = true;
+            }
+
+        }while(inputValid);
+
+        Seller newSeller = new Seller(username, password);
+        shop.getUserManager().addUser(newSeller);
+        System.out.println("New seller added successfully.");
+    }
 
     @Override
     public void accessControl(Shop shop, Scanner sc) {
-        while (true) {
+        boolean loop = false;
+        while (loop) {
             System.out.println("\nSeller Menu:");
             System.out.println("1. View Items for Sale");
             System.out.println("2. Add New Item");
             System.out.println("3. Remove Item");
-            System.out.println("4. Exit");
+            System.out.println("4. Add new Seller");
+            System.out.println("5. Exit");
 
             int choice = sc.nextInt();
             sc.nextLine();
@@ -49,7 +91,8 @@ public class Seller extends UserBase {
                     System.out.println("Item removed.");
                     break;
                 case 4:
-                    return;
+                    addNewSeller(sc, shop);
+                    break;
                 default:
                     System.out.println("Invalid option. Please try again.");
             }

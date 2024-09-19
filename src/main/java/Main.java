@@ -13,13 +13,13 @@ import java.util.InputMismatchException;
 public class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        Shop shop = new Shop();  // Initialize the shop
         UserManager userManager = new UserManager();  // Initialize user manager
+        Shop shop = new Shop();  // Initialize the shop
 
         // Create some predefined users and add them to the user manager
-        Admin admin = new Admin("Admin1", "adminpass");
-        Seller seller = new Seller("Seller1", "sellerpass");
-        Customer user = new Customer("User1", "userpass");
+        UserBase admin = new Admin("admin1", "adminpass");
+        UserBase seller = new Seller("seller1", "sellerpass");
+        UserBase user = new Customer("user1", "userpass");
         userManager.addUser(user);
         userManager.addUser(seller);
         userManager.addUser(admin);

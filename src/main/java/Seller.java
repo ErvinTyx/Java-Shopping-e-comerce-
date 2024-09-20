@@ -47,10 +47,10 @@ public class Seller extends UserBase {
             System.out.print("Enter password:");
             password = sc.nextLine();
             if(!shop.getUserManager().isValidPassword(password)){
-                inputValid = true;
+                inputValid = false;
             }
             else{
-                inputValid = false;
+                inputValid = true;
             }
 
         }while(!inputValid);

@@ -54,7 +54,7 @@ public class Admin extends UserBase {
         do{
 
                 
-            System.out.println("Enter new admin username:");
+            System.out.print("Enter new admin username:");
             username = sc.nextLine();
             if (shop.getUserManager().findUser(username) != null) {
                 System.out.println("Username already exists. Please choose a different username.");
@@ -73,10 +73,10 @@ public class Admin extends UserBase {
                 System.out.print("Enter password:");
             password = sc.nextLine();
             if(!shop.getUserManager().isValidPassword(password)){
-                inputValid = true;
+                inputValid = false;
             }
             else{
-                inputValid = false;
+                inputValid = true;
             }
 
         }while(!inputValid);

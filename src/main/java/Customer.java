@@ -27,7 +27,7 @@ public class Customer extends UserBase {
             System.out.println("3. View Cart");
             System.out.println("4. Checkout");
             System.out.println("5. Log out");
-
+            System.out.print("Enter your choice: ");
             int choice = sc.nextInt();
             sc.nextLine();
 
@@ -36,7 +36,7 @@ public class Customer extends UserBase {
                     shop.listItems();
                     break;
                 case 2:
-                    System.out.println("Enter item ID to add to cart:");
+                    System.out.print("Enter item ID to add to cart:");
                     int itemId = sc.nextInt();
                     Item item = shop.getItemById(itemId);
                     if (item != null) {

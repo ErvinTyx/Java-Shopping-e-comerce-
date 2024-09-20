@@ -19,6 +19,12 @@ public class UserManager {
         users = new ArrayList<>();
     }
 
+    // list all user and its information
+    public void listUsers() {
+        for (UserBase user : users) {
+            System.out.println(user.getUsername() + " (" + user.getRole() + ")");
+        }
+    }
     public void addUser(UserBase user) {
         users.add(user);
     }

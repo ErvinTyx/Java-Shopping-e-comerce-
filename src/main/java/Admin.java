@@ -70,16 +70,16 @@ public class Admin extends UserBase {
                 System.out.println("Please make sure password 8 or more characters long.");
                 System.out.println("Please make sure password has at least 1 uppercase, 1 lowercase, 1 digit and 1 special character");
             }
-                System.out.println("Enter password:");
+                System.out.print("Enter password:");
             password = sc.nextLine();
             if(!shop.getUserManager().isValidPassword(password)){
-                inputValid = false;
-            }
-            else{
                 inputValid = true;
             }
+            else{
+                inputValid = false;
+            }
 
-        }while(inputValid);
+        }while(!inputValid);
             
 
         Admin newAdmin = new Admin(username, password);

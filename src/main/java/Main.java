@@ -14,7 +14,7 @@ public class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         UserManager userManager = new UserManager();  // Initialize user manager
-        Shop shop = new Shop();  // Initialize the shop
+        Shop shop = new Shop(userManager);  // Initialize the shop
 
         // Create some predefined users and add them to the user manager
         UserBase admin = new Admin("admin1", "adminpass");
@@ -31,7 +31,6 @@ public class Main {
             System.out.println("\nWelcome to the Online Shopping Cart System");
             System.out.println("1. Log in");
             System.out.println("2. Sign up as a new user");
-            System.out.println("3. Exit");
             System.out.print("Enter your choice :");
             try {
                 choice = sc.nextInt();
@@ -54,7 +53,7 @@ public class Main {
                     
                 }
             }
-            if(shop.isShopopen()){
+            if(!shop.isShopopen()){
                 loop = false;
             }
         }
@@ -80,6 +79,7 @@ public class Main {
             } else {
                 System.out.println("Invalid credentials.");
                 counter++;
+                System.out.println("Try again. You have " + (3 - counter) + " attempts left.");
             }
         }while(counter < 3 && loop);
     }
@@ -97,7 +97,7 @@ public class Main {
 
             
             do{
-                System.out.println("Enter your new username:");
+                System.out.print("Enter your new username:");
                 username = sc.nextLine();
                 if (userManager.findUser(username) != null) {
                     System.out.println("Username already exists. Please choose a different username.");
@@ -117,10 +117,10 @@ public class Main {
                     System.out.println("Enter password:");
                 password = sc.nextLine();
                 if(!userManager.isValidPassword(password)){
-                    inputValid = false;
+                    inputValid = true;
                 }
                 else{
-                    inputValid = true;
+                    inputValid = false;
                 }
 
             }while(inputValid);

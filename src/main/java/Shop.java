@@ -13,10 +13,10 @@ public class Shop {
     private ArrayList<Item> items;
     private UserManager userManager;
     private boolean shopopen;
-    public Shop() {
+    public Shop(UserManager userManager) {
         items = new ArrayList<>();
         shopopen = true;
-        userManager = new UserManager();
+        this.userManager = userManager;
     }
 
     public void addItem(Item item) {

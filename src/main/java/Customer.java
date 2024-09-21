@@ -59,7 +59,7 @@ public class Customer extends UserBase {
                     }else{
                         boolean  loop2 = true;
                         while(loop2){
-                            
+                            boolean paymentStatus = false;
                             Payment payment = new Payment(cart.getTotalAmount());
                             payment.showPaymentDetails();
                             System.out.println("Payment Methods:");
@@ -87,7 +87,7 @@ public class Customer extends UserBase {
                                     System.out.print("Enter your CVV: ");
                                     String cvv = sc.nextLine();
                                     PaymentType creditPay = new CreditPay(creditCardNumber, expiryDate, cvv);
-                                    payment.processPayment(creditPay);
+                                    paymentStatus = payment.processPayment(creditPay);
                                     break;
                                 case 2:
                                     System.out.print("Enter your phone number: ");
@@ -95,7 +95,7 @@ public class Customer extends UserBase {
                                     System.out.println("Enter your 6 digit passcode: ");
                                     String passcode = sc.nextLine();
                                     PaymentType tngPay = new TnGPay(phoneNumber, passcode);
-                                    payment.processPayment(tngPay);
+                                    paymentStatus = payment.processPayment(tngPay);
                                     break;
                                 case 3:
                                     System.out.println("Enter your bank account number: ");
@@ -103,13 +103,19 @@ public class Customer extends UserBase {
                                     System.out.println("Enter your bank account password: ");
                                     String bankAccountPassword = sc.nextLine();
                                     PaymentType onlinePay = new OnlinePay(bankAccountNumber, bankAccountPassword);
-                                    payment.processPayment(onlinePay);
+                                    paymentStatus = payment.processPayment(onlinePay);
                                     break;
                                 case 4:
                                     loop2 = false;
                                     break;
                                 default:
                                     System.out.println("Invalid option. Please try again.");
+                            }
+
+                            if(paymentStatus){  
+                                System.out.println("Payment successful. Thank you for shopping with us.");
+                                cart.checkout();
+                                loop2 = false;
                             }
                         }
                     }

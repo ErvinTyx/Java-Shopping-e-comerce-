@@ -1,5 +1,7 @@
 
 import java.util.Scanner;
+import java.util.InputMismatchException;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
@@ -20,7 +22,8 @@ public class Customer extends UserBase {
 
     @Override
     public void accessControl(Shop shop, Scanner sc) {
-        while (true) {
+        boolean loop = true;
+        while (loop) {
             System.out.println("\nCustomer Menu:");
             System.out.println("1. View Items");
             System.out.println("2. Add Item to Cart");
@@ -50,8 +53,66 @@ public class Customer extends UserBase {
                     cart.viewCart();
                     break;
                 case 4:
-                    cart.checkout();
-                    break;
+                    if(cart.getItems().isEmpty()){
+                        System.out.println("Your cart is empty. Please add items to proceed.");
+                        break;
+                    }else{
+                        boolean  loop2 = true;
+                        while(loop2){
+                            
+                            Payment payment = new Payment(cart.getTotalAmount());
+                            payment.showPaymentDetails();
+                            System.out.println("Payment Methods:");
+                            System.out.println("1. Credit Card");
+                            System.out.println("2. TnG");
+                            System.out.println("3. Online Payment");
+                            System.out.println("4. Abort");
+                            System.out.print("Enter your choice: ");
+                            int paymentMethod;
+                            try {
+                                paymentMethod = sc.nextInt();
+                                sc.nextLine();
+                            } catch (InputMismatchException e) {
+                                System.out.println("Invalid input. Please enter a number.");
+                                sc.nextLine();
+                                continue;
+                            }
+                            
+                            switch (paymentMethod) {
+                                case 1:
+                                    System.out.print("Enter your credit card number: ");
+                                    String creditCardNumber = sc.nextLine();
+                                    System.out.print("Enter your expiry date (MM/YY): ");
+                                    String expiryDate = sc.nextLine();
+                                    System.out.print("Enter your CVV: ");
+                                    String cvv = sc.nextLine();
+                                    PaymentType creditPay = new CreditPay(creditCardNumber, expiryDate, cvv);
+                                    payment.processPayment(creditPay);
+                                    break;
+                                case 2:
+                                    System.out.print("Enter your phone number: ");
+                                    String phoneNumber = sc.nextLine();
+                                    System.out.println("Enter your 6 digit passcode: ");
+                                    String passcode = sc.nextLine();
+                                    PaymentType tngPay = new TnGPay(phoneNumber, passcode);
+                                    payment.processPayment(tngPay);
+                                    break;
+                                case 3:
+                                    System.out.println("Enter your bank account number: ");
+                                    String bankAccountNumber = sc.nextLine();
+                                    System.out.println("Enter your bank account password: ");
+                                    String bankAccountPassword = sc.nextLine();
+                                    PaymentType onlinePay = new OnlinePay(bankAccountNumber, bankAccountPassword);
+                                    payment.processPayment(onlinePay);
+                                    break;
+                                case 4:
+                                    loop2 = false;
+                                    break;
+                                default:
+                                    System.out.println("Invalid option. Please try again.");
+                            }
+                        }
+                    }
                 case 5:
                     return;
                 default:
@@ -64,4 +125,3 @@ public class Customer extends UserBase {
         return cart;
     }
 }
-

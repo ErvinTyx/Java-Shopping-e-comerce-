@@ -7,12 +7,10 @@
  *
  * @author ervin
  */
-
-
-
 import java.util.ArrayList;
 
 public class UserManager {
+
     private ArrayList<UserBase> users;
 
     public UserManager() {
@@ -25,6 +23,7 @@ public class UserManager {
             System.out.println(user.getUsername() + " (" + user.getRole() + ")");
         }
     }
+
     public void addUser(UserBase user) {
         users.add(user);
     }
@@ -80,8 +79,6 @@ public class UserManager {
         if (!hasSpecialChar) {
             System.out.println("Password must contain at least one special character");
         }
-
-        
 
         // Password is valid only if all criteria are met
         return hasUppercase && hasLowercase && hasDigit && hasSpecialChar;

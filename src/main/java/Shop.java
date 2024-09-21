@@ -10,9 +10,11 @@
 import java.util.ArrayList;
 
 public class Shop {
+
     private ArrayList<Item> items;
     private UserManager userManager;
     private boolean shopopen;
+
     public Shop(UserManager userManager) {
         items = new ArrayList<>();
         shopopen = true;

@@ -7,9 +7,8 @@
  *
  * @author ervin
  */
-
-
 public class Item {
+
     private static int idCounter = 1;
     private int id;
     private String name;
@@ -24,7 +23,9 @@ public class Item {
     public String getName() {
         return name;
     }
-
+    public double getPrice() {
+        return price;
+    }
     public int getId() {
         return id;
     }
@@ -34,4 +35,3 @@ public class Item {
         return "Item ID: " + id + ", Name: " + name + ", Price: $" + price;
     }
 }
-

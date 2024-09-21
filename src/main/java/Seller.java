@@ -1,5 +1,4 @@
 
-
 import java.util.Scanner;
 import java.util.InputMismatchException;
 
@@ -7,53 +6,48 @@ import java.util.InputMismatchException;
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-
 /**
  *
  * @author ervin
  */
-
-
 public class Seller extends UserBase {
 
     public Seller(String username, String password) {
         super(username, password, "Seller");
     }
+
     private void addNewSeller(Scanner sc, Shop shop) {
-        
-        boolean inputValid= false;
+
+        boolean inputValid = false;
         String username;
         String password;
-        do{
+        do {
 
-                
             System.out.println("Enter new seller username:");
             username = sc.nextLine();
             if (shop.getUserManager().findUser(username) != null) {
                 System.out.println("Username already exists. Please choose a different username.");
                 inputValid = false;
-            }
-            else{
+            } else {
                 inputValid = true;
             }
-        }while(!inputValid);
+        } while (!inputValid);
 
-        do{
-            if(!inputValid){
+        do {
+            if (!inputValid) {
 
                 System.out.println("Please make sure password 8 or more characters long.");
                 System.out.println("Please make sure password has at least 1 uppercase, 1 lowercase, 1 digit and 1 special character");
             }
             System.out.print("Enter password:");
             password = sc.nextLine();
-            if(!shop.getUserManager().isValidPassword(password)){
+            if (!shop.getUserManager().isValidPassword(password)) {
                 inputValid = false;
-            }
-            else{
+            } else {
                 inputValid = true;
             }
 
-        }while(!inputValid);
+        } while (!inputValid);
 
         Seller newSeller = new Seller(username, password);
         shop.getUserManager().addUser(newSeller);
@@ -126,4 +120,3 @@ public class Seller extends UserBase {
     }
 
 }
-

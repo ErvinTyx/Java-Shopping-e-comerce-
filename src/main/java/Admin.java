@@ -5,7 +5,6 @@ import java.util.Scanner;
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-
 /**
  *
  * @author ervin
@@ -48,39 +47,35 @@ public class Admin extends UserBase {
 
     // Admin-only method to add a new admin
     private void addNewAdmin(Scanner sc, Shop shop) {
-        boolean inputValid= false;
+        boolean inputValid = false;
         String username;
         String password;
-        do{
+        do {
 
-                
             System.out.print("Enter new admin username:");
             username = sc.nextLine();
             if (shop.getUserManager().findUser(username) != null) {
                 System.out.println("Username already exists. Please choose a different username.");
                 inputValid = false;
-            }
-            else{
+            } else {
                 inputValid = true;
             }
-        }while(!inputValid);
-        do{
-            if(!inputValid){
+        } while (!inputValid);
+        do {
+            if (!inputValid) {
 
                 System.out.println("Please make sure password 8 or more characters long.");
                 System.out.println("Please make sure password has at least 1 uppercase, 1 lowercase, 1 digit and 1 special character");
             }
-                System.out.print("Enter password:");
+            System.out.print("Enter password:");
             password = sc.nextLine();
-            if(!shop.getUserManager().isValidPassword(password)){
+            if (!shop.getUserManager().isValidPassword(password)) {
                 inputValid = false;
-            }
-            else{
+            } else {
                 inputValid = true;
             }
 
-        }while(!inputValid);
-            
+        } while (!inputValid);
 
         Admin newAdmin = new Admin(username, password);
         shop.getUserManager().addUser(newAdmin);

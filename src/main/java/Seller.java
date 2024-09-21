@@ -23,7 +23,7 @@ public class Seller extends UserBase {
         String password;
         do {
 
-            System.out.println("Enter new seller username:");
+            System.out.print("Enter new seller username:");
             username = sc.nextLine();
             if (shop.getUserManager().findUser(username) != null) {
                 System.out.println("Username already exists. Please choose a different username.");
@@ -64,7 +64,7 @@ public class Seller extends UserBase {
             System.out.println("3. Remove Item");
             System.out.println("4. Add new Seller");
             System.out.println("5. Log Out");
-
+            System.out.print("Enter your choice:");
             int choice;
             try {
                 choice = sc.nextInt();
@@ -86,6 +86,10 @@ public class Seller extends UserBase {
                     double price;
                     try {
                         price = sc.nextDouble();
+                        if (price < 0) {
+                            System.out.println("Invalid input. Please enter a valid price. Please try again.");
+                            continue;
+                        }
                     } catch (InputMismatchException e) {
                         System.out.println("Invalid input. Please enter a valid price. Please try again.");
                         sc.nextLine();

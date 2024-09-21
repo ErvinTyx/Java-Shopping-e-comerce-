@@ -40,8 +40,12 @@ public class Shop {
 
     public void listItems() {
         System.out.println("Available Items:");
-        for (Item item : items) {
-            System.out.println(item);
+        if (items.isEmpty()) {
+            System.out.println("No items available.");
+        }else{
+            for (Item item : items) {
+                System.out.println(item);
+            }
         }
     }
 

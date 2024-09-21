@@ -81,6 +81,6 @@ public class UserManager {
         }
 
         // Password is valid only if all criteria are met
-        return hasUppercase && hasLowercase && hasDigit && hasSpecialChar;
+        return (hasUppercase && hasLowercase && hasDigit && hasSpecialChar);
     }
 }

@@ -1,4 +1,5 @@
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Main {
@@ -23,8 +24,15 @@ public class Main {
             System.out.println("1. Log in");
             System.out.println("2. Sign up as a new user");
             System.out.print("Enter your choice: ");
-            int choice = sc.nextInt();
-            sc.nextLine();  // Consume newline
+            int choice;
+            try {
+                choice = sc.nextInt();
+                sc.nextLine();  // Consume newline
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input. Please enter a number.");
+                sc.nextLine();
+                continue;
+            }
 
             switch (choice) {
                 case 1 ->
@@ -79,14 +87,14 @@ public class Main {
         } while (!inputValid);
 
         do {
+            inputValid = false;
+            System.out.println("Password must be 8 or more characters long, with at least 1 uppercase, 1 lowercase, 1 digit, and 1 special character.");
             System.out.print("Enter your password: ");
             password = sc.nextLine();
-            if (!userManager.isValidPassword(password)) {
-                System.out.println("Password must be 8 or more characters long, with at least 1 uppercase, 1 lowercase, 1 digit, and 1 special character.");
-            } else {
-                inputValid = true;
-            }
-        } while (!inputValid);
+            inputValid = userManager.isValidPassword(password);
+            
+
+        } while(!inputValid);
 
         UserBase newUser = new Customer(username, password);
         userManager.addUser(newUser);

@@ -46,21 +46,35 @@ public class Customer extends UserBase {
                     shop.listItems();
                     break;
                 case 2:
-                    if(shop.getItems().isEmpty()){
-                        System.out.println("There are not items available now for sale. Please try again later.");
-                    }else{
-                        System.out.print("Enter item ID to add to cart:");
+                    if (shop.getItems().isEmpty()) {
+                        System.out.println("There are no items available for sale. Please try again later.");
+                    } else {
+                        System.out.print("Enter item ID to add to cart: ");
                         int itemId = sc.nextInt();
-                        
+                        sc.nextLine();  // Clear the buffer
+
                         Item item = shop.getItemById(itemId);
                         if (item != null) {
-                            cart.addItem(item);
-                            System.out.println("Item added to cart: " + item.getName());
+                            System.out.println("Available quantity for " + item.getName() + ": " + item.getQuantity());
+
+                            System.out.print("Enter quantity to add to cart: ");
+                            int quantity = sc.nextInt();
+                            sc.nextLine();  // Clear the buffer
+
+                            if (quantity > 0 && quantity <= item.getQuantity()) {  // Validate requested quantity
+                                cart.addItem(item, quantity);
+                                System.out.println("Added " + quantity + " of " + item.getName() + " to the cart.");
+                                System.out.println("Remaining quantity of " + item.getName() + ": " + item.getQuantity());  // Display remaining stock
+                            } else if (quantity > item.getQuantity()) {
+                                System.out.println("Requested quantity exceeds available stock. Please enter a quantity less than or equal to " + item.getQuantity() + ".");
+                            } else {
+                                System.out.println("Invalid quantity. Please enter a positive number.");
+                            }
                         } else {
-                            System.out.println("Invalid item ID.");
+                        System.out.println("Invalid item ID.");
                         }
                     }
-                    break;
+                     break;
                 case 3:
                     cart.viewCart();
                     break;

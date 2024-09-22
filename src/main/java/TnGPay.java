@@ -33,6 +33,7 @@ public class TnGPay extends PaymentType {
                         data[2] = String.valueOf(amount);
                         sb.append(String.join(",", data));
                         found = true;
+                        status = true;
                     } else {
                         System.out.println("Insufficient balance.");
                         status =false;

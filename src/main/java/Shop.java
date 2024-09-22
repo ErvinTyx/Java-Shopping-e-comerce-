@@ -36,10 +36,10 @@ public class Shop {
 
     public void removeItem(int id) {
         boolean found = items.removeIf(item -> item.getId() == id);
-        if(found){
+        if (found) {
             System.out.println("Item removed successfully.");
-        }else{
-            System.out.println("Item id does not exits.Enter a exiting id.");
+        } else {
+            System.out.println("Item ID does not exist. Enter an existing ID.");
         }
     }
 
@@ -47,9 +47,10 @@ public class Shop {
         System.out.println("Available Items:");
         if (items.isEmpty()) {
             System.out.println("No items available.");
-        }else{
+        } else {
+            System.out.printf("%-10s %-20s %-10s %-10s%n", "Item ID", "Name", "Price", "Quantity");
             for (Item item : items) {
-                System.out.println(item);
+                System.out.printf("%-10d %-20s %-10.2f %-10d%n", item.getId(), item.getName(), item.getPrice(), item.getQuantity());
             }
         }
     }
@@ -66,9 +67,10 @@ public class Shop {
     public void listUsers() {
         System.out.println("Registered Users:");
         for (UserBase user : userManager.getUsers()) {
-            System.out.println("Username:"+user.getUsername() +"\nRole: (" + user.getRole() + ")\n");
+            System.out.println("Username: " + user.getUsername() + "\nRole: (" + user.getRole() + ")\n");
         }
     }
+
 
     public UserManager getUserManager() {
         return userManager;

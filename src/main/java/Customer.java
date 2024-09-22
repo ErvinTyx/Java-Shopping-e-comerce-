@@ -31,22 +31,34 @@ public class Customer extends UserBase {
             System.out.println("4. Checkout");
             System.out.println("5. Log out");
             System.out.print("Enter your choice: ");
-            int choice = sc.nextInt();
-            sc.nextLine();
+            int choice;
+            try {
+                choice = sc.nextInt();
+                sc.nextLine();
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input. Please enter a number.");
+                sc.nextLine();
+                continue;
+            }
 
             switch (choice) {
                 case 1:
                     shop.listItems();
                     break;
                 case 2:
-                    System.out.print("Enter item ID to add to cart:");
-                    int itemId = sc.nextInt();
-                    Item item = shop.getItemById(itemId);
-                    if (item != null) {
-                        cart.addItem(item);
-                        System.out.println("Item added to cart: " + item.getName());
-                    } else {
-                        System.out.println("Invalid item ID.");
+                    if(shop.getItems().isEmpty()){
+                        System.out.println("There are not items available now for sale. Please try again later.");
+                    }else{
+                        System.out.print("Enter item ID to add to cart:");
+                        int itemId = sc.nextInt();
+                        
+                        Item item = shop.getItemById(itemId);
+                        if (item != null) {
+                            cart.addItem(item);
+                            System.out.println("Item added to cart: " + item.getName());
+                        } else {
+                            System.out.println("Invalid item ID.");
+                        }
                     }
                     break;
                 case 3:

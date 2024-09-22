@@ -35,7 +35,12 @@ public class Shop {
     }
 
     public void removeItem(int id) {
-        items.removeIf(item -> item.getId() == id);
+        boolean found = items.removeIf(item -> item.getId() == id);
+        if(found){
+            System.out.println("Item removed successfully.");
+        }else{
+            System.out.println("Item id does not exits.Enter a exiting id.");
+        }
     }
 
     public void listItems() {
@@ -61,7 +66,7 @@ public class Shop {
     public void listUsers() {
         System.out.println("Registered Users:");
         for (UserBase user : userManager.getUsers()) {
-            System.out.println(user.getUsername() + " (" + user.getRole() + ")");
+            System.out.println("Username:"+user.getUsername() +"\nRole: (" + user.getRole() + ")\n");
         }
     }
 

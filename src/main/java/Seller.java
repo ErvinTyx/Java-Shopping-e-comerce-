@@ -34,19 +34,15 @@ public class Seller extends UserBase {
         } while (!inputValid);
 
         do {
-            if (!inputValid) {
+            if (inputValid) {
 
                 System.out.println("Please make sure password 8 or more characters long.");
                 System.out.println("Please make sure password has at least 1 uppercase, 1 lowercase, 1 digit and 1 special character");
             }
+            inputValid = false;
             System.out.print("Enter password:");
             password = sc.nextLine();
-            if (!shop.getUserManager().isValidPassword(password)) {
-                inputValid = false;
-            } else {
-                inputValid = true;
-            }
-
+            inputValid = shop.getUserManager().isValidPassword(password);
         } while (!inputValid);
 
         Seller newSeller = new Seller(username, password);
@@ -86,8 +82,8 @@ public class Seller extends UserBase {
                     double price;
                     try {
                         price = sc.nextDouble();
-                        if (price < 0) {
-                            System.out.println("Invalid input. Please enter a valid price. Please try again.");
+                        if (price <= 0.9) {
+                            System.out.println("Invalid Price. Please enter a valid price which is more than zero. Please try again.");
                             continue;
                         }
                     } catch (InputMismatchException e) {
@@ -99,17 +95,22 @@ public class Seller extends UserBase {
                     System.out.println("Item added: " + name);
                     break;
                 case 3:
-                    System.out.println("Enter item ID to remove:");
-                    int itemId;
-                    try {
-                        itemId = sc.nextInt();
-                    } catch (InputMismatchException e) {
-                        System.out.println("Invalid input. Please enter a valid item ID.");
-                        sc.nextLine();
-                        continue;
+                    if(shop.getItems().isEmpty()){
+                        System.out.println("There are no items to remove. Add an item first.");
+                    }else{
+                        shop.listItems();
+                        System.out.print("Enter item ID to remove:");
+                        int itemId;
+                        try {
+                            itemId = sc.nextInt();
+                        } catch (InputMismatchException e) {
+                            System.out.println("Invalid input. Please enter a valid item ID.");
+                            sc.nextLine();
+                            continue;
+                        }
+                        shop.removeItem(itemId);
+                        
                     }
-                    shop.removeItem(itemId);
-                    System.out.println("Item removed.");
                     break;
                 case 4:
                     addNewSeller(sc, shop);

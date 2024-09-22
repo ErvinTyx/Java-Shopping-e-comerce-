@@ -1,4 +1,5 @@
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 /*
@@ -17,15 +18,23 @@ public class Admin extends UserBase {
 
     @Override
     public void accessControl(Shop shop, Scanner sc) {
-        while (true) {
+        boolean loop = true;
+        while (loop) {
             System.out.println("\nAdmin Menu:");
             System.out.println("1. View All Users");
             System.out.println("2. Close shop(terminate program)");
             System.out.println("3. Add New Admin");
-            System.out.println("4. Exit");
+            System.out.println("4. Log out");
             System.out.print("Enter your choice: ");
-            int choice = sc.nextInt();
-            sc.nextLine();
+            int choice;
+            try {
+                choice = sc.nextInt();
+                sc.nextLine();
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input. Please enter a number.");
+                sc.nextLine();
+                continue;
+            }
 
             switch (choice) {
                 case 1:
@@ -38,7 +47,7 @@ public class Admin extends UserBase {
                     addNewAdmin(sc, shop);
                     break;
                 case 4:
-                    return;
+                    loop = false;
                 default:
                     System.out.println("Invalid option. Please try again.");
             }
@@ -56,24 +65,20 @@ public class Admin extends UserBase {
             username = sc.nextLine();
             if (shop.getUserManager().findUser(username) != null) {
                 System.out.println("Username already exists. Please choose a different username.");
-                inputValid = false;
             } else {
                 inputValid = true;
             }
         } while (!inputValid);
         do {
-            if (!inputValid) {
+            if (inputValid) {
 
                 System.out.println("Please make sure password 8 or more characters long.");
                 System.out.println("Please make sure password has at least 1 uppercase, 1 lowercase, 1 digit and 1 special character");
             }
+            inputValid = false;
             System.out.print("Enter password:");
             password = sc.nextLine();
-            if (!shop.getUserManager().isValidPassword(password)) {
-                inputValid = false;
-            } else {
-                inputValid = true;
-            }
+            inputValid =shop.getUserManager().isValidPassword(password);
 
         } while (!inputValid);
 

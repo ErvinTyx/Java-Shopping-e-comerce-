@@ -87,9 +87,11 @@ public class Main {
         } while (!inputValid);
 
         do {
-            inputValid = false;
-            System.out.println("Password must be 8 or more characters long, with at least 1 uppercase, 1 lowercase, 1 digit, and 1 special character.");
+            if (inputValid) {   
+                System.out.println("Password must be 8 or more characters long, with at least 1 uppercase, 1 lowercase, 1 digit, and 1 special character.");
+            }
             System.out.print("Enter your password: ");
+            inputValid = false;
             password = sc.nextLine();
             inputValid = userManager.isValidPassword(password);
             

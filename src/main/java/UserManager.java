@@ -43,7 +43,7 @@ public class UserManager {
 
     public boolean isValidPassword(String password) {
         if (password.length() < 8) {
-            System.out.println("Password Lenght too Short");
+            System.out.println("Password length too Short");
             return false; // Password too short
         }
 

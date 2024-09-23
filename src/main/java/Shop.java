@@ -4,12 +4,14 @@ public class Shop {
 
     private ArrayList<Item> items;
     private UserManager userManager;
+    private OrderManager orderManager;
     private boolean shopopen;
 
-    public Shop(UserManager userManager) {
-        items = new ArrayList<>();
+    public Shop(UserManager userManager, Listing listing) {
         shopopen = true;
         this.userManager = userManager;
+        this.orderManager = new OrderManager();
+        this.items = listing.getItems();
     }
 
     public void addItem(Item item) {
@@ -34,13 +36,14 @@ public class Shop {
         }
     }
 
-    public void listItems() {
+    public void listItems(Listing listing) {
         System.out.println("Available Items:");
+        ArrayList<Item> itemsToShow = listing.getItems();
         if (items.isEmpty()) {
             System.out.println("No items available.");
         } else {
             System.out.printf("%-10s %-20s %-10s %-10s%n", "Item ID", "Name", "Price", "Quantity");
-            for (Item item : items) {
+            for (Item item : itemsToShow) {
                 System.out.printf("%-10d %-20s %-10.2f %-10d%n", item.getId(), item.getName(), item.getPrice(), item.getQuantity());
             }
         }
@@ -74,6 +77,10 @@ public class Shop {
 
     public UserManager getUserManager() {
         return userManager;
+    }
+
+    public OrderManager getOrderManager(){
+        return orderManager;
     }
 
     public ArrayList<Item> getItems() {

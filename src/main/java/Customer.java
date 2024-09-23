@@ -34,7 +34,7 @@ public class Customer extends UserBase {
 
             switch (choice) {
                 case 1:
-                    shop.listItems();
+                    shop.listItems(listing);
                     break;
                 case 2:
                     if (shop.getItems().isEmpty()) {

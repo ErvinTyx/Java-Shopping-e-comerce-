@@ -1,12 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-
-/**
- *
- * @author ervin
- */
 import java.util.ArrayList;
 
 public class Shop {
@@ -55,12 +46,22 @@ public class Shop {
         }
     }
 
+    public void updateQuantity(int id, int newQuantity) {
+        Item item = getItemById(id);
+        if (item != null) {
+            item.setQuantity(newQuantity);
+            System.out.println("Quantity of " + item.getName() + " updated to " + newQuantity + ".");
+        } else {
+            System.out.println("Item ID does not exist. Please enter an existing ID.");
+        }
+    }
+
     public void openCloseShop() {
         shopopen = !shopopen;
         if (shopopen) {
             System.out.println("Shop is now open.");
         } else {
-            System.out.println("Shop is now closed. Please log out to terminate program.");
+            System.out.println("Shop is now closed. Please log out to terminate the program.");
         }
     }
 
@@ -70,7 +71,6 @@ public class Shop {
             System.out.println("Username: " + user.getUsername() + "\nRole: (" + user.getRole() + ")\n");
         }
     }
-
 
     public UserManager getUserManager() {
         return userManager;
@@ -95,5 +95,4 @@ public class Shop {
     public void setShopopen(boolean shopopen) {
         this.shopopen = shopopen;
     }
-
 }

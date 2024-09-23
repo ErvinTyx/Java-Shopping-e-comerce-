@@ -38,9 +38,67 @@ public class Seller extends UserBase {
         System.out.println("New seller added successfully.");
     }
 
+    public void viewOrderHistory(Shop shop) {
+        if (shop.getOrderManager().getAllOrders().isEmpty()) {
+            System.out.println("No orders have been placed yet.");
+        } else {
+            System.out.println("\nOrder History:");
+            for (Order order : shop.getOrderManager().getAllOrders()) {
+                order.displayOrder();
+                System.out.println("--------------------");
+            }
+        }
+    }
+    
+    // Method to update order status
+    public void updateOrderStatus(Scanner sc, Shop shop) {
+        System.out.print("Enter Order ID to update status: ");
+        String orderId = sc.nextLine();
+
+        Order order = shop.getOrderManager().findOrder(orderId);
+        if (order == null) {
+            System.out.println("Order ID not found.");
+            return;
+        }
+
+        System.out.println("Current Status: " + order.getStatus());
+        System.out.println("Choose new status: 1. Placed 2. Processing 3. Shipped 4. Delivered");
+        int statusChoice;
+        try {
+            statusChoice = sc.nextInt();
+            sc.nextLine(); // consume newline
+        } catch (InputMismatchException e) {
+            System.out.println("Invalid input. Please enter a valid number.");
+            sc.nextLine(); // clear the invalid input
+            return;
+        }
+
+        switch (statusChoice) {
+            case 1:
+                order.updateStatus(Order.OrderStatus.PLACED);
+                break;
+            case 2:
+                order.updateStatus(Order.OrderStatus.PROCESSING);
+                break;
+            case 3:
+                order.updateStatus(Order.OrderStatus.SHIPPED);
+                break;
+            case 4:
+                order.updateStatus(Order.OrderStatus.DELIVERED);
+                break;
+            default:
+                System.out.println("Invalid option.");
+                return;
+        }
+
+        System.out.println("Order status updated successfully to: " + order.getStatus());
+    }
+    
     @Override
     public void accessControl(Shop shop, Scanner sc) {
         boolean loop = false;
+        Listing listing = new Listing();
+        
         while (!loop) {
             System.out.println("\nSeller Menu:");
             System.out.println("1. View Items for Sale");
@@ -48,7 +106,9 @@ public class Seller extends UserBase {
             System.out.println("3. Remove Item");
             System.out.println("4. Update Item Quantity");
             System.out.println("5. Add New Seller");
-            System.out.println("6. Log Out");
+            System.out.println("6. View Order History");
+            System.out.println("7. Update Order Status"); 
+            System.out.println("8. Log Out");
             System.out.print("Enter your choice: ");
             int choice;
             try {
@@ -62,7 +122,7 @@ public class Seller extends UserBase {
 
             switch (choice) {
                 case 1:
-                    shop.listItems();
+                    shop.listItems(listing);
                     break;
                 case 2:
                     System.out.print("Enter new item name: ");
@@ -137,6 +197,12 @@ public class Seller extends UserBase {
                     addNewSeller(sc, shop);
                     break;
                 case 6:
+                    viewOrderHistory(shop); 
+                    break;
+                case 7:
+                    updateOrderStatus(sc, shop); 
+                    break;
+                case 8:
                     loop = true; // Exit the loop to log out
                     break;
                 default:

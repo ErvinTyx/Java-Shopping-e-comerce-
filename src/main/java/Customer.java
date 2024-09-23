@@ -13,6 +13,7 @@ public class Customer extends UserBase {
     @Override
     public void accessControl(Shop shop, Scanner sc) {
         boolean loop = true;
+        Listing listing = new Listing();
         while (loop) {
             System.out.println("\nCustomer Menu:");
             System.out.println("1. View Items");

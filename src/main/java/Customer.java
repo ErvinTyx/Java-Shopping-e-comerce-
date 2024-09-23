@@ -17,9 +17,10 @@ public class Customer extends UserBase {
             System.out.println("\nCustomer Menu:");
             System.out.println("1. View Items");
             System.out.println("2. Add Item to Cart");
-            System.out.println("3. View Cart");
-            System.out.println("4. Checkout");
-            System.out.println("5. Log out");
+            System.out.println("3. Remove Item from Cart");
+            System.out.println("4. View Cart");
+            System.out.println("5. Checkout");
+            System.out.println("6. Log out");
             System.out.print("Enter your choice: ");
             int choice;
             try {
@@ -66,9 +67,19 @@ public class Customer extends UserBase {
                     }
                     break;
                 case 3:
-                    cart.viewCart();
+                    if (cart.getItems().isEmpty()) {
+                        System.out.println("Your cart is empty. Please add items first.");
+                    } else {
+                        cart.viewCart();
+                        System.out.print("Enter item ID to remove from cart: ");
+                        int removeItemId = sc.nextInt();
+                        cart.removeItem(removeItemId);
+                    }
                     break;
                 case 4:
+                    cart.viewCart();
+                    break;
+                case 5:
                     if (cart.getItems().isEmpty()) {
                         System.out.println("Your cart is empty. Please add items to proceed.");
                         break;
@@ -138,7 +149,7 @@ public class Customer extends UserBase {
                         }
                     }
                     break;
-                case 5:
+                case 6:
                     loop = false;  // Exit customer menu loop
                     break;
                 default:

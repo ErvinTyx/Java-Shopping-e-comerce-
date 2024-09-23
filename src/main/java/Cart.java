@@ -6,7 +6,7 @@ public class Cart {
 
     public Cart() {
         items = new ArrayList<>();
-        quantities = new ArrayList<>();
+        quantities = new ArrayList<>(); 
     }
 
     public ArrayList<Item> getItems() {
@@ -39,6 +39,22 @@ public class Cart {
 
         // Decrease the available stock from the shop
         item.setQuantity(item.getQuantity() - quantity);
+    }
+
+    // Remove item from cart
+    public void removeItem(int itemId) {
+        for (int i = 0; i < items.size(); i++) {
+            if (items.get(i).getId() == itemId) {
+                // Increase the stock in the shop when removing from the cart
+                Item item = items.get(i);
+                item.setQuantity(item.getQuantity() + quantities.get(i)); // Restore stock
+                items.remove(i);
+                quantities.remove(i);
+                System.out.println("Item removed from cart successfully.");
+                return;
+            }
+        }
+        System.out.println("Item not found in cart.");
     }
 
     // Display the contents of the cart in a formatted table and include the total amount

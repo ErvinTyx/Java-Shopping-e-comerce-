@@ -1,16 +1,6 @@
-
 import java.util.Scanner;
 import java.util.InputMismatchException;
 
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-
-/**
- *
- * @author ervin
- */
 public class Customer extends UserBase {
 
     private Cart cart;
@@ -34,7 +24,7 @@ public class Customer extends UserBase {
             int choice;
             try {
                 choice = sc.nextInt();
-                sc.nextLine();
+                sc.nextLine();  // Clear the buffer
             } catch (InputMismatchException e) {
                 System.out.println("Invalid input. Please enter a number.");
                 sc.nextLine();
@@ -71,20 +61,20 @@ public class Customer extends UserBase {
                                 System.out.println("Invalid quantity. Please enter a positive number.");
                             }
                         } else {
-                        System.out.println("Invalid item ID.");
+                            System.out.println("Invalid item ID.");
                         }
                     }
-                     break;
+                    break;
                 case 3:
                     cart.viewCart();
                     break;
                 case 4:
-                    if(cart.getItems().isEmpty()){
+                    if (cart.getItems().isEmpty()) {
                         System.out.println("Your cart is empty. Please add items to proceed.");
                         break;
-                    }else{
-                        boolean  loop2 = true;
-                        while(loop2){
+                    } else {
+                        boolean loop2 = true;
+                        while (loop2) {
                             boolean paymentStatus = false;
                             Payment payment = new Payment(cart.getTotalAmount());
                             payment.showPaymentDetails();
@@ -103,7 +93,7 @@ public class Customer extends UserBase {
                                 sc.nextLine();
                                 continue;
                             }
-                            
+
                             switch (paymentMethod) {
                                 case 1:
                                     System.out.print("Enter your credit card number: ");
@@ -118,7 +108,7 @@ public class Customer extends UserBase {
                                 case 2:
                                     System.out.print("Enter your phone number: ");
                                     String phoneNumber = sc.nextLine();
-                                    System.out.println("Enter your 6 digit passcode: ");
+                                    System.out.println("Enter your 6-digit passcode: ");
                                     String passcode = sc.nextLine();
                                     PaymentType tngPay = new TnGPay(phoneNumber, passcode);
                                     paymentStatus = payment.processPayment(tngPay);
@@ -132,21 +122,25 @@ public class Customer extends UserBase {
                                     paymentStatus = payment.processPayment(onlinePay);
                                     break;
                                 case 4:
+                                    System.out.println("Payment aborted.");
                                     loop2 = false;
                                     break;
                                 default:
                                     System.out.println("Invalid option. Please try again.");
+                                    continue;
                             }
 
-                            if(paymentStatus){  
+                            if (paymentStatus) {
                                 System.out.println("Payment successful. Thank you for shopping with us.");
                                 cart.checkout();
-                                loop2 = false;
+                                loop2 = false;  // Exit payment loop after successful payment
                             }
                         }
                     }
+                    break;
                 case 5:
-                    return;
+                    loop = false;  // Exit customer menu loop
+                    break;
                 default:
                     System.out.println("Invalid option. Please try again.");
             }

@@ -162,7 +162,7 @@ public class Seller extends UserBase {
                     if (shop.getItems().isEmpty()) {
                         System.out.println("There are no items to remove. Add an item first.");
                     } else {
-                        shop.listItems();
+                        shop.listItems(listing);
                         System.out.print("Enter item ID to remove: ");
                         int itemId;
                         try {
@@ -179,7 +179,7 @@ public class Seller extends UserBase {
                     if (shop.getItems().isEmpty()) {
                         System.out.println("There are no items to update. Add an item first.");
                     } else {
-                        shop.listItems();
+                        shop.listItems(listing);
                         System.out.print("Enter item ID to update quantity: ");
                         int itemId;
                         try {

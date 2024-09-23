@@ -46,13 +46,14 @@ public class Seller extends UserBase {
             System.out.println("1. View Items for Sale");
             System.out.println("2. Add New Item");
             System.out.println("3. Remove Item");
-            System.out.println("4. Add New Seller");
-            System.out.println("5. Log Out");
+            System.out.println("4. Update Item Quantity");
+            System.out.println("5. Add New Seller");
+            System.out.println("6. Log Out");
             System.out.print("Enter your choice: ");
             int choice;
             try {
                 choice = sc.nextInt();
-                sc.nextLine();
+                sc.nextLine(); // clear the buffer
             } catch (InputMismatchException e) {
                 System.out.println("Invalid input. Please enter a number.");
                 sc.nextLine(); // clear the invalid input
@@ -115,10 +116,28 @@ public class Seller extends UserBase {
                     }
                     break;
                 case 4:
-                    addNewSeller(sc, shop);
+                    if (shop.getItems().isEmpty()) {
+                        System.out.println("There are no items to update. Add an item first.");
+                    } else {
+                        shop.listItems();
+                        System.out.print("Enter item ID to update quantity: ");
+                        int itemId;
+                        try {
+                            itemId = sc.nextInt();
+                            System.out.print("Enter new quantity: ");
+                            int newQuantity = sc.nextInt();
+                            shop.updateQuantity(itemId, newQuantity);
+                        } catch (InputMismatchException e) {
+                            System.out.println("Invalid input. Please enter a valid item ID and quantity.");
+                            sc.nextLine(); // clear the invalid input
+                        }
+                    }
                     break;
                 case 5:
-                    loop = true;
+                    addNewSeller(sc, shop);
+                    break;
+                case 6:
+                    loop = true; // Exit the loop to log out
                     break;
                 default:
                     System.out.println("Invalid option. Please try again.");

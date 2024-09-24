@@ -136,15 +136,15 @@ public class Customer extends UserBase {
                                 case 2:
                                     System.out.print("Enter your phone number: ");
                                     String phoneNumber = sc.nextLine();
-                                    System.out.println("Enter your 6-digit passcode: ");
+                                    System.out.print("Enter your 6-digit passcode: ");
                                     String passcode = sc.nextLine();
                                     PaymentType tngPay = new TnGPay(phoneNumber, passcode);
                                     paymentStatus = payment.processPayment(tngPay);
                                     break;
                                 case 3:
-                                    System.out.println("Enter your bank account number: ");
+                                    System.out.print("Enter your bank account number: ");
                                     String bankAccountNumber = sc.nextLine();
-                                    System.out.println("Enter your bank account password: ");
+                                    System.out.print("Enter your bank account password: ");
                                     String bankAccountPassword = sc.nextLine();
                                     PaymentType onlinePay = new OnlinePay(bankAccountNumber, bankAccountPassword);
                                     paymentStatus = payment.processPayment(onlinePay);
@@ -160,7 +160,7 @@ public class Customer extends UserBase {
 
                             if (paymentStatus) {
                                 System.out.println("Payment successful. Thank you for shopping with us.");
-                                Order order = new Order(username, cart.getItems());
+                                Order order = new Order(username, cart.getItems(),cart.getQuantities());
                                 shop.getOrderManager().addOrder(order);
                                 cart.checkout(shop);
                                 loop2 = false;  // Exit payment loop after successful payment

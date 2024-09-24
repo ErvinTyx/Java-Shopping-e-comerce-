@@ -4,6 +4,8 @@ public class Cart {
     private ArrayList<Item> items;
     private ArrayList<Integer> quantities;  // Track quantities for each item in the cart
 
+    
+
     public Cart() {
         items = new ArrayList<>();
         quantities = new ArrayList<>(); 
@@ -16,7 +18,13 @@ public class Cart {
     public void setItems(ArrayList<Item> items) {
         this.items = items;
     }
+    public ArrayList<Integer> getQuantities() {
+        return quantities;
+    }
 
+    public void setQuantities(ArrayList<Integer> quantities) {
+        this.quantities = quantities;
+    }
     // Add item to cart and track its quantity
     public void addItem(Item item, int quantity) {
         boolean itemExistsInCart = false;

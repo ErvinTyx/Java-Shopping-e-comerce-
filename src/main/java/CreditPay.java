@@ -30,7 +30,6 @@ public class CreditPay extends PaymentType {
                 if (data[0].equals(creditCardNumber) && data[1].equals(expiryDate) && data[2].equals(cvv)) {
                     double amount = Double.parseDouble(data[3]);
                     if (amount >= totalAmount) {
-                        System.out.println("Payment successful.");
                         amount -= totalAmount;
                         data[3] = String.valueOf(amount);
                         sb.append(String.join(",", data));

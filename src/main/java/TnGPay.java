@@ -28,7 +28,7 @@ public class TnGPay extends PaymentType {
                 if (data[0].equals(phoneNumber) && data[1].equals(passcode)) {
                     double amount = Double.parseDouble(data[2]);
                     if (amount >= totalAmount) {
-                        System.out.println("Payment successful.");
+
                         amount -= totalAmount;
                         data[2] = String.valueOf(amount);
                         sb.append(String.join(",", data));

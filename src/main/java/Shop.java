@@ -5,6 +5,7 @@ public class Shop {
     private UserManager userManager;
     private OrderManager orderManager;
     private boolean shopopen;
+    private ArrayList<Order> orderHistory = new ArrayList<>();
 
 
     public Shop(UserManager userManager) {
@@ -12,6 +13,7 @@ public class Shop {
         this.userManager = userManager;
         orderManager = new OrderManager();
         items = new ArrayList<>();
+        this.orderHistory = new ArrayList <>();
     }
 
     public void addItem(Item item) {
@@ -41,7 +43,7 @@ public class Shop {
             System.out.println("No items available for sale.");
         } else {
             System.out.println("Items for Sale:");
-            System.out.printf("%-8s|%-20s|%-13s|%10s|","Item Id","Item name", "Item Price","Quantity left");
+            System.out.printf("%-8s|%-20s|%-15s|%10s|","Item Id","Item name", "Item Price","Quantity left");
             System.out.println("");
             for (Item item : items) {
                 System.out.println(item.toString());
@@ -73,6 +75,24 @@ public class Shop {
         System.out.println("Registered Users:");
         for (UserBase user : userManager.getUsers()) {
             System.out.println("Username: " + user.getUsername() + "\nRole: (" + user.getRole() + ")\n");
+        }
+    }
+    
+    public void addOrderToHistory(Order order) {
+        orderHistory.add(order);
+    }
+    
+    public void viewOrderHistory(String customerName) {
+        System.out.println("Order History for " + customerName + ":");
+        boolean hasOrders = false; // Flag to check if the customer has orders
+        for (Order order : orderHistory) {
+            if (order.getCustomerName().equals(customerName)) {
+                order.displayOrder(); // Display each order for the customer
+                hasOrders = true; // Set flag to true if there are orders
+            }
+        }
+        if (!hasOrders) {
+            System.out.println("No orders found for this customer."); // Message if no orders exist
         }
     }
 

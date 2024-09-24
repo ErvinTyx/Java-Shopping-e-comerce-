@@ -27,7 +27,6 @@ public class OnlinePay extends PaymentType {
                 if (data[0].equals(banknumber) && data[1].equals(bankAccountPassword)) {
                     double amount = Double.parseDouble(data[2]);
                     if (amount >= totalAmount) {
-                        System.out.println("Payment successful.");
                         amount -= totalAmount;
                         data[2] = String.valueOf(amount);
                         sb.append(String.join(",", data));

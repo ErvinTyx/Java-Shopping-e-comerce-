@@ -62,7 +62,7 @@ public class Seller extends UserBase {
         }
 
         System.out.println("Current Status: " + order.getStatus());
-        System.out.println("Choose new status: \n1. Placed \n2. Processing \n3. Shipped \n4. Delivered");
+        System.out.println("1. Placed \n2. Processing \n3. Shipped \n4. Delivered \nChoose new status:");
         int statusChoice;
         try {
             statusChoice = sc.nextInt();
@@ -203,6 +203,7 @@ public class Seller extends UserBase {
                     if(shop.getOrderManager().getAllOrders().isEmpty()) {
                         System.out.println("No orders have been placed yet.");
                     } else {
+                        viewOrderHistory(shop);
                         updateOrderStatus(sc, shop); 
                     }
                     break;

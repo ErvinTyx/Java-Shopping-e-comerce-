@@ -14,8 +14,8 @@ public class Order {
         this.orderId = counter;
         counter++;
         this.customerName = customerName;
-        this.items = items;
-        this.quantities = quantities;
+        this.items = new ArrayList<>(items);
+        this.quantities = new ArrayList<>(quantities);
         this.status = OrderStatus.PLACED; // default status when the order is created
         rewritequantity();
     }
@@ -23,16 +23,13 @@ public class Order {
     private void rewritequantity() {
         // rewrite quantity to item
         for (int i = 0; i < items.size(); i++) {
-            Item item = items.get(i);
-            item.setQuantity(quantities.get(i));
+            items.get(i).setQuantity(quantities.get(i));
         }
-        
     }
-
 
     // Getters
     public int getOrderId() {
-        return counter;
+        return orderId;
     }
 
     public String getCustomerName() {
@@ -59,16 +56,37 @@ public class Order {
         System.out.println("Order Status: " + status);
         System.out.println("Items Ordered: ");
         // display items ordered and quantities
-        System.out.printf("%-8s|%-20s|%-13s|%13s|%13s|\n", "Item ID", "Name", "Price(Per Item)", "Quantity","Total Price Item");
+        System.out.printf("%-8s|%-20s|%-15s|%13s|%13s|\n", "Item ID", "Name", "Price(Per Item)", "Quantity","Total Price Item");
         double grandtotal = 0;
-        for (int i = 0; i < items.size(); i++) {
-            Item item = items.get(i);
-            double subtotal = item.getQuantity() * item.getPrice();
-            System.out.printf("%-8d|%-20s|%-13.2f|%13d|$%13.2f|\n", item.getId(), item.getName(), item.getPrice(), item.getQuantity(), subtotal);
-            grandtotal += subtotal;
+        
+        if (items.size() != quantities.size()) {
+            System.out.println("Error: Items and quantities lists must be of the same size.");
+            return; // Exit the method to prevent further errors
         }
-        System.out.println("Grand Total: $" + grandtotal);
-    }    
+        
+        // Display each item in a properly formatted row
+        for (int i = 0; i < items.size(); i++) {
+            Item item = items.get(i); // Get the item
+            int quantity = quantities.get(i); // Get the corresponding quantity
+            double totalPriceItem = quantity * item.getPrice(); // Calculate total price for the item
+
+            // Display each item in a properly formatted row
+            System.out.printf("%-8s|%-20s|$%-14.2f|%13d|$%15.2f|\n",
+                    item.getId(),     // Item ID
+                    item.getName(),   // Item Name
+                    item.getPrice(),  // Price per Item
+                    quantity,         // Quantity
+                    totalPriceItem    // Total Price per Item
+            );
+
+            // Accumulate total price for the order
+            grandtotal += totalPriceItem;
+        }
+    
+        // Display grand total
+        System.out.println("Grand Total: $" + String.format("%.2f", grandtotal));
+    }
+    
     public enum OrderStatus {
         PLACED,
         PROCESSING,

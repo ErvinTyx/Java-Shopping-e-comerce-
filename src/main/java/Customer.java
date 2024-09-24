@@ -7,7 +7,7 @@ public class Customer extends UserBase {
 
     public Customer(String username, String password) {
         super(username, password, "Customer");
-        this.cart = new Cart();
+        this.cart = new Cart(username);
     }
 
     @Override

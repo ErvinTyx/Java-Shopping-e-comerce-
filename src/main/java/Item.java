@@ -36,6 +36,6 @@ public class Item {
 
     @Override
     public String toString() {
-        return String.format("%-8d|%-20s|%-13.2f|%13d|", id, name, price, quantity);
+        return String.format("%-8d|%-20s|%-15.2f|%13d|", id, name, price, quantity);
     }
 }

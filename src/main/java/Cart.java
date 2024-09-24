@@ -3,10 +3,10 @@ import java.util.ArrayList;
 public class Cart {
     private ArrayList<Item> items;
     private ArrayList<Integer> quantities;  // Track quantities for each item in the cart
-
+    private String customerName;
     
-
-    public Cart() {
+    public Cart(String customerName) {
+        this.customerName = customerName;
         items = new ArrayList<>();
         quantities = new ArrayList<>(); 
     }
@@ -97,6 +97,10 @@ public class Cart {
         } else {
             System.out.println("Proceeding to checkout...");
             
+            ArrayList<Integer> quantities = new ArrayList<>(this.quantities);
+            Order newOrder = new Order(customerName, new ArrayList<>(items), quantities);
+            shop.addOrderToHistory(newOrder); 
+
             finalizeCheckout(shop);
         }
     }
@@ -109,6 +113,7 @@ public class Cart {
             item.setQuantity(item.getQuantity() - quantityInCart); // Deduct stock
         }
         items.clear();
+        quantities.clear();
         System.out.println("Checkout completed successfully.");
     }
 }

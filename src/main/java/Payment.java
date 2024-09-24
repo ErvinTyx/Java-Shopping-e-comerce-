@@ -25,7 +25,7 @@ public class Payment {
     }
 
     public void showPaymentDetails() {
-        System.out.println("\nPayment ID: " + paymentId);
+        System.out.println("Payment ID: " + paymentId);
         System.out.println("Total Amount: " + totalAmount);        
     }
 }

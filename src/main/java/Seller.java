@@ -62,7 +62,8 @@ public class Seller extends UserBase {
         }
 
         System.out.println("Current Status: " + order.getStatus());
-        System.out.println("1. Placed \n2. Processing \n3. Shipped \n4. Delivered \nChoose new status:");
+        System.out.println("1. Placed \n2. Processing \n3. Shipped \n4. Delivered");
+        System.out.println("Choose new status:");
         int statusChoice;
         try {
             statusChoice = sc.nextInt();

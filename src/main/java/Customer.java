@@ -13,7 +13,6 @@ public class Customer extends UserBase {
     @Override
     public void accessControl(Shop shop, Scanner sc) {
         boolean loop = true;
-        Listing listing = new Listing();
         while (loop) {
             System.out.println("\nCustomer Menu:");
             System.out.println("1. View Items");
@@ -21,7 +20,8 @@ public class Customer extends UserBase {
             System.out.println("3. Remove Item from Cart");
             System.out.println("4. View Cart");
             System.out.println("5. Checkout");
-            System.out.println("6. Log out");
+            System.out.println("6. View orders history");
+            System.out.println("7. Log out");
             System.out.print("Enter your choice: ");
             int choice;
             try {
@@ -35,23 +35,39 @@ public class Customer extends UserBase {
 
             switch (choice) {
                 case 1:
-                    shop.listItems(listing);
+                    shop.listItems();
                     break;
                 case 2:
-                    if (shop.getItems().isEmpty()) {
+                    if (shop.getItems() == null || shop.getItems().isEmpty()) {
                         System.out.println("There are no items available for sale. Please try again later.");
                     } else {
+                        shop.listItems();
                         System.out.print("Enter item ID to add to cart: ");
-                        int itemId = sc.nextInt();
-                        sc.nextLine();  // Clear the buffer
+                        int itemId;
+                        try {
+                            itemId = sc.nextInt();
+                            sc.nextLine();  // Clear the buffer
+                        } catch (InputMismatchException e) {
+                            System.out.println("Invalid input. Please enter a valid number.");
+                            sc.nextLine();
+                            continue;
+                        }
+
 
                         Item item = shop.getItemById(itemId);
                         if (item != null) {
                             System.out.println("Available quantity for " + item.getName() + ": " + item.getQuantity());
 
                             System.out.print("Enter quantity to add to cart: ");
-                            int quantity = sc.nextInt();
-                            sc.nextLine();  // Clear the buffer
+                            int quantity;
+                            try {
+                                quantity = sc.nextInt();
+                                sc.nextLine();  // Clear the buffer
+                            } catch (InputMismatchException e) {
+                                System.out.println("Invalid input. Please enter a valid quantity number.");
+                                sc.nextLine();
+                                continue;
+                            }
 
                             if (quantity > 0 && quantity <= item.getQuantity()) {  // Validate requested quantity
                                 cart.addItem(item, quantity);
@@ -144,13 +160,19 @@ public class Customer extends UserBase {
 
                             if (paymentStatus) {
                                 System.out.println("Payment successful. Thank you for shopping with us.");
-                                cart.checkout();
+                                Order order = new Order(username, cart.getItems());
+                                shop.getOrderManager().addOrder(order);
+                                cart.checkout(shop);
                                 loop2 = false;  // Exit payment loop after successful payment
                             }
                         }
                     }
                     break;
                 case 6:
+                    // view order history
+                    shop.getOrderManager().viewOrderHistory(username);
+                    break;
+                case 7:
                     loop = false;  // Exit customer menu loop
                     break;
                 default:

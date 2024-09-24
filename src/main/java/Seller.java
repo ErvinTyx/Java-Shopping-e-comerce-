@@ -53,16 +53,16 @@ public class Seller extends UserBase {
     // Method to update order status
     public void updateOrderStatus(Scanner sc, Shop shop) {
         System.out.print("Enter Order ID to update status: ");
-        String orderId = sc.nextLine();
+        int orderId = sc.nextInt();
 
-        Order order = shop.getOrderManager().findOrder(orderId);
+        Order order = shop.getOrderManager().findOrderCus(orderId);
         if (order == null) {
             System.out.println("Order ID not found.");
             return;
         }
 
         System.out.println("Current Status: " + order.getStatus());
-        System.out.println("Choose new status: 1. Placed 2. Processing 3. Shipped 4. Delivered");
+        System.out.println("Choose new status: \n1. Placed \n2. Processing \n3. Shipped \n4. Delivered");
         int statusChoice;
         try {
             statusChoice = sc.nextInt();
@@ -87,7 +87,7 @@ public class Seller extends UserBase {
                 order.updateStatus(Order.OrderStatus.DELIVERED);
                 break;
             default:
-                System.out.println("Invalid option.");
+                System.out.println("Invalid option. Status not updated.Try again later");
                 return;
         }
 
@@ -97,7 +97,6 @@ public class Seller extends UserBase {
     @Override
     public void accessControl(Shop shop, Scanner sc) {
         boolean loop = false;
-        Listing listing = new Listing();
         
         while (!loop) {
             System.out.println("\nSeller Menu:");
@@ -106,7 +105,7 @@ public class Seller extends UserBase {
             System.out.println("3. Remove Item");
             System.out.println("4. Update Item Quantity");
             System.out.println("5. Add New Seller");
-            System.out.println("6. View Order History");
+            System.out.println("6. View Orders from Customers");
             System.out.println("7. Update Order Status"); 
             System.out.println("8. Log Out");
             System.out.print("Enter your choice: ");
@@ -122,7 +121,7 @@ public class Seller extends UserBase {
 
             switch (choice) {
                 case 1:
-                    shop.listItems(listing);
+                    shop.listItems();
                     break;
                 case 2:
                     System.out.print("Enter new item name: ");
@@ -155,14 +154,15 @@ public class Seller extends UserBase {
                         continue;
                     }
 
+                    
                     shop.addItem(new Item(name, price, quantity));
                     System.out.println("Item added: " + name);
                     break;
                 case 3:
-                    if (shop.getItems().isEmpty()) {
+                    if (shop.getItems() == null || shop.getItems().isEmpty()) {
                         System.out.println("There are no items to remove. Add an item first.");
                     } else {
-                        shop.listItems(listing);
+                        shop.listItems();
                         System.out.print("Enter item ID to remove: ");
                         int itemId;
                         try {
@@ -176,10 +176,10 @@ public class Seller extends UserBase {
                     }
                     break;
                 case 4:
-                    if (shop.getItems().isEmpty()) {
+                    if (shop.getItems() == null || shop.getItems().isEmpty()) {
                         System.out.println("There are no items to update. Add an item first.");
                     } else {
-                        shop.listItems(listing);
+                        shop.listItems();
                         System.out.print("Enter item ID to update quantity: ");
                         int itemId;
                         try {
@@ -200,7 +200,11 @@ public class Seller extends UserBase {
                     viewOrderHistory(shop); 
                     break;
                 case 7:
-                    updateOrderStatus(sc, shop); 
+                    if(shop.getOrderManager().getAllOrders().isEmpty()) {
+                        System.out.println("No orders have been placed yet.");
+                    } else {
+                        updateOrderStatus(sc, shop); 
+                    }
                     break;
                 case 8:
                     loop = true; // Exit the loop to log out

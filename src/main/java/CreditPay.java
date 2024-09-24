@@ -1,3 +1,7 @@
+import java.util.Scanner;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class CreditPay extends PaymentType {
 
@@ -14,51 +18,47 @@ public class CreditPay extends PaymentType {
 
     @Override
     public boolean processPayment(double totalAmount) {
+        boolean status = false; 
         System.out.println("Processing credit card payment with card number: " + creditCardNumber);
-        if (isValidCardNumber(creditCardNumber) && isValidExpiryDate(expiryDate) && isValidCVV(cvv)) {
-            System.out.println("Payment successful.");
-            return true;
-        } else {
-            System.out.println("Payment failed. Please check your card information.");
-            return false;
-        }
-    }
-
-    private boolean isValidCardNumber(String cardNumber) {
-        int sum = 0;
-        boolean alternate = false;
-        for (int i = cardNumber.length() - 1; i >= 0; i--) {
-            int n = Integer.parseInt(cardNumber.substring(i, i + 1));
-            if (alternate) {
-                n *= 2;
-                if (n > 9) {
-                    n -= 9;
+        try {
+            Scanner sc = new Scanner(new File("creditCard.txt"));
+            StringBuilder sb = new StringBuilder();
+            boolean found = false;
+            while (sc.hasNextLine()) {
+                String line = sc.nextLine();
+                String[] data = line.split(",");
+                if (data[0].equals(creditCardNumber) && data[1].equals(expiryDate) && data[2].equals(cvv)) {
+                    double amount = Double.parseDouble(data[3]);
+                    if (amount >= totalAmount) {
+                        System.out.println("Payment successful.");
+                        amount -= totalAmount;
+                        data[3] = String.valueOf(amount);
+                        sb.append(String.join(",", data));
+                        found = true;
+                        status = true;
+                    } else {
+                        System.out.println("Insufficient balance.");
+                        status =false;
+                    }
+                } else {
+                    sb.append(line);
                 }
+                sb.append("\r\n"); // update to append a new line
             }
-            sum += n;
-            alternate = !alternate;
-        }
-        return (sum % 10 == 0);
-    }
-
-    private boolean isValidExpiryDate(String expiryDate) {
-        if (expiryDate.matches("[0-9]{2}/[0-9]{2}")) {
-            String[] parts = expiryDate.split("/");
-            int month = Integer.parseInt(parts[0]);
-            int year = Integer.parseInt(parts[1]);
-
-            if (month >= 1 && month <= 12 && year >= 0 && year <= 99) {
-                return true;
+            if (!found) {
+                System.out.println("Invalid card information.");
+                status = false;
             }
+            FileWriter fw = new FileWriter("creditCard.txt");
+            fw.write(sb.toString());
+            fw.close();
+            sc.close();
+        } catch (IOException e) {
+            System.out.println("Error: " + e.getMessage());
+            System.exit(0);
         }
-        return false;
+        return status;
     }
 
-    private boolean isValidCVV(String cvv) {
-        if (cvv.matches("[0-9]{3}")) {
-            return true;
-        }
-        return false;
-    }
 
 }

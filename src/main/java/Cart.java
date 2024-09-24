@@ -23,7 +23,7 @@ public class Cart {
 
         // Check if item is already in the cart
         for (int i = 0; i < items.size(); i++) {
-            if (items.get(i).getId() == item.getId()) {
+            if(items.get(i).getId() == item.getId()){
                 // Update the quantity if item already exists in cart
                 quantities.set(i, quantities.get(i) + quantity);
                 itemExistsInCart = true;
@@ -44,7 +44,7 @@ public class Cart {
     // Remove item from cart
     public void removeItem(int itemId) {
         for (int i = 0; i < items.size(); i++) {
-            if (items.get(i).getId() == itemId) {
+            if (items.get(i).getId() == itemId){
                 // Increase the stock in the shop when removing from the cart
                 Item item = items.get(i);
                 item.setQuantity(item.getQuantity() + quantities.get(i)); // Restore stock
@@ -64,13 +64,13 @@ public class Cart {
         if (items.isEmpty()) {
             System.out.println("Your cart is empty.");
         } else {
-            System.out.printf("%-10s %-20s %-10s %-10s%n", "Item ID", "Name", "Price", "Quantity");
+            System.out.printf("%-10s|%-20s|%-10s|%-10s|\n", "Item ID", "Name", "Price", "Quantity");
             for (int i = 0; i < items.size(); i++) {
                 Item item = items.get(i);
-                System.out.printf("%-10d %-20s %-10.2f %-10d%n", item.getId(), item.getName(), item.getPrice(), quantities.get(i));
+                System.out.printf("%-10d|%-20s|%-10.2f|%-10d|\n", item.getId(), item.getName(), item.getPrice(), quantities.get(i));
             }
             // Print the total amount at the end
-            System.out.printf("%nTotal Amount: $%.2f%n", getTotalAmount());
+            System.out.printf("%nTotal Amount: $%.2f\n", getTotalAmount());
         }
     }
 
@@ -83,12 +83,24 @@ public class Cart {
         return total;
     }
     
-    public void checkout() {
+    public void checkout(Shop shop) {
         if (items.isEmpty()) {
             System.out.println("Your cart is empty.");
         } else {
             System.out.println("Proceeding to checkout...");
-            items.clear();  // Clear the cart after checkout
+            
+            finalizeCheckout(shop);
         }
+    }
+
+    // Update stock after successful payment
+    public void finalizeCheckout(Shop shop) {
+        for (int i = 0; i < items.size(); i++) {
+            Item item = items.get(i);
+            int quantityInCart = quantities.get(i);
+            item.setQuantity(item.getQuantity() - quantityInCart); // Deduct stock
+        }
+        items.clear();
+        System.out.println("Checkout completed successfully.");
     }
 }

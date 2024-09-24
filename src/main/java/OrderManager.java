@@ -14,13 +14,29 @@ public class OrderManager {
     public ArrayList<Order> getAllOrders() {
         return orders;
     }
+    
+    public void viewOrderHistory(String username){
+        boolean orderFound = false;
 
-    public Order findOrder(String orderId) {
+        for(Order order: orders){
+            if(order.getCustomerName().equals(username)){
+                order.displayOrder();
+                orderFound = true;
+            }
+        }
+        if(!orderFound){
+            System.out.println("No orders found.");
+        }
+    }
+
+    public Order findOrderCus(int orderId) {
         for (Order order : orders) {
-            if (order.getOrderId().equals(orderId)) {
+            if (order.getOrderId() == orderId) {
+
                 return order;
             }
         }
+
         return null;
     }
 }

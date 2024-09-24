@@ -2,22 +2,24 @@
 import java.util.ArrayList;
 
 public class Order {
-    private String orderId;
+    private static int counter =1;
     private String customerName;
     private ArrayList<Item> items;
     private OrderStatus status;
+    private int orderId;
 
     // Constructor
-    public Order(String orderId, String customerName, ArrayList<Item> items) {
-        this.orderId = orderId;
+    public Order(String customerName, ArrayList<Item> items) {
+        this.orderId = counter;
+        counter++;
         this.customerName = customerName;
         this.items = items;
         this.status = OrderStatus.PLACED; // default status when the order is created
     }
 
     // Getters
-    public String getOrderId() {
-        return orderId;
+    public int getOrderId() {
+        return counter;
     }
 
     public String getCustomerName() {
@@ -44,7 +46,7 @@ public class Order {
         System.out.println("Order Status: " + status);
         System.out.println("Items Ordered: ");
         for (Item item : items) {
-            System.out.println("- " + item.getName());
+            System.out.println(item);
         }
     }
     

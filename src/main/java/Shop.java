@@ -1,17 +1,17 @@
 import java.util.ArrayList;
 
 public class Shop {
-
     private ArrayList<Item> items;
     private UserManager userManager;
     private OrderManager orderManager;
     private boolean shopopen;
 
-    public Shop(UserManager userManager, Listing listing) {
+
+    public Shop(UserManager userManager) {
         shopopen = true;
         this.userManager = userManager;
-        this.orderManager = new OrderManager();
-        this.items = listing.getItems();
+        orderManager = new OrderManager();
+        items = new ArrayList<>();
     }
 
     public void addItem(Item item) {
@@ -20,7 +20,7 @@ public class Shop {
 
     public Item getItemById(int id) {
         for (Item item : items) {
-            if (item.getId() == id) {
+            if (item.getId() == (id)) { 
                 return item;
             }
         }
@@ -36,18 +36,19 @@ public class Shop {
         }
     }
 
-    public void listItems(Listing listing) {
-        System.out.println("Available Items:");
-        ArrayList<Item> itemsToShow = listing.getItems();
-        if (items.isEmpty()) {
-            System.out.println("No items available.");
+    public void listItems() {
+        if (items == null || items.isEmpty()) {
+            System.out.println("No items available for sale.");
         } else {
-            System.out.printf("%-10s %-20s %-10s %-10s%n", "Item ID", "Name", "Price", "Quantity");
-            for (Item item : itemsToShow) {
-                System.out.printf("%-10d %-20s %-10.2f %-10d%n", item.getId(), item.getName(), item.getPrice(), item.getQuantity());
+            System.out.println("Items for Sale:");
+            System.out.printf("%-8s|%-20s|%-13s|%10s|","Item Id","Item name", "Item Price","Quantity left");
+            System.out.println("");
+            for (Item item : items) {
+                System.out.println(item.toString());
             }
         }
     }
+
 
     public void updateQuantity(int id, int newQuantity) {
         Item item = getItemById(id);

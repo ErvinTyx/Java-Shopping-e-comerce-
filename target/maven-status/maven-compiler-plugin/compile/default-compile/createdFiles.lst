@@ -1,13 +1,13 @@
+Order$OrderStatus.class
+OrderStatus$Status.class
 Seller.class
 UserBase.class
 Admin.class
 Item.class
 Cart.class
-Review.class
-Shipping.class
 Customer.class
 UserManager.class
-Discount.class
-Category.class
+OrderStatus.class
 Order.class
+OrderManager.class
 Shop.class

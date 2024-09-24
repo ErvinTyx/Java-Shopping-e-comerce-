@@ -6,9 +6,8 @@ public class Main {
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        Listing listing = new Listing();
         UserManager userManager = new UserManager();  // Initialize user manager
-        Shop shop = new Shop(userManager, listing);  // Initialize the shop
+        Shop shop = new Shop(userManager);  // Initialize the shop
 
         // Create some predefined users and add them to the user manager
         UserBase admin = new Admin("admin1", "adminpass");

@@ -48,6 +48,7 @@ public class Admin extends UserBase {
                     break;
                 case 4:
                     loop = false;
+                    break;
                 default:
                     System.out.println("Invalid option. Please try again.");
             }

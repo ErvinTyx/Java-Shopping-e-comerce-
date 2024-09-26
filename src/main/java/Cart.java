@@ -27,11 +27,12 @@ public class Cart {
     }
     // Add item to cart and track its quantity
     public void addItem(Item item, int quantity) {
+        Item itemInCart = new Item(item.getName(), item.getPrice(), item.getQuantity());
         boolean itemExistsInCart = false;
 
         // Check if item is already in the cart
         for (int i = 0; i < items.size(); i++) {
-            if(items.get(i).getId() == item.getId()){
+            if(items.get(i).getId() == itemInCart.getId()){
                 // Update the quantity if item already exists in cart
                 quantities.set(i, quantities.get(i) + quantity);
                 itemExistsInCart = true;
@@ -41,7 +42,7 @@ public class Cart {
 
         if (!itemExistsInCart) {
             // Add new item to cart if it doesn't already exist
-            items.add(item);
+            items.add(itemInCart);
             quantities.add(quantity);
         }
 
